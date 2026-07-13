@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
-import { untrack } from 'svelte';
+	import { untrack } from 'svelte';
 
 	let { data } = $props();
 
@@ -78,8 +78,8 @@ import { untrack } from 'svelte';
 		<article class="stat-card">
 			<p class="stat-label">Quick actions</p>
 			<div class="quick-links">
-				<a href={resolve("/resources")}>Find resources</a>
-				<a href={resolve("/bookings")}>View bookings</a>
+				<a href={resolve('/resources')}>Find resources</a>
+				<a href={resolve('/bookings')}>View bookings</a>
 			</div>
 		</article>
 	</section>
@@ -94,7 +94,7 @@ import { untrack } from 'svelte';
 				<button class="link-button" onclick={loadBookings} disabled={loading}>
 					{#if loading}Refreshing...{:else}Refresh{/if}
 				</button>
-				<a class="link-button" href={resolve("/bookings")}>Open bookings</a>
+				<a class="link-button" href={resolve('/bookings')}>Open bookings</a>
 			</div>
 		</div>
 
@@ -103,7 +103,7 @@ import { untrack } from 'svelte';
 		{:else if recentBookings.length === 0}
 			<div class="empty">
 				<p>You have no upcoming bookings.</p>
-				<a href={resolve("/resources")}>Find a room or equipment</a>
+				<a href={resolve('/resources')}>Find a room or equipment</a>
 			</div>
 		{:else}
 			<div class="grid">
@@ -128,17 +128,17 @@ import { untrack } from 'svelte';
 	</section>
 
 	<section class="section action-grid">
-		<a class="action-card" href={resolve("/resources")}>
+		<a class="action-card" href={resolve('/resources')}>
 			<h3>Find resources</h3>
 			<p>Search rooms and equipment by availability and book what you need.</p>
 		</a>
 
-		<a class="action-card" href={resolve("/bookings")}>
+		<a class="action-card" href={resolve('/bookings')}>
 			<h3>Manage bookings</h3>
 			<p>Review your reservations, refresh status, and cancel when needed.</p>
 		</a>
 
-		<a class="action-card" href={resolve("/maintenance")}>
+		<a class="action-card" href={resolve('/maintenance')}>
 			<h3>Maintenance</h3>
 			<p>Jump into operational issues, servicing, and downtime workflows.</p>
 		</a>
@@ -147,7 +147,8 @@ import { untrack } from 'svelte';
 
 <style>
 	.page {
-		max-width: 1100px;
+		width: 100%;
+		max-width: 1600px;
 		margin: 0 auto;
 		padding: 2rem;
 	}
@@ -186,7 +187,7 @@ import { untrack } from 'svelte';
 	.grid {
 		display: grid;
 		gap: 1rem;
-		grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+		grid-template-columns: repeat(3, minmax(0, 1fr));
 	}
 
 	.stats-grid {
@@ -207,6 +208,12 @@ import { untrack } from 'svelte';
 	.card,
 	.action-card {
 		padding: 1rem;
+	}
+
+	.card {
+		min-width: 0;
+		display: flex;
+		flex-direction: column;
 	}
 
 	.stat-label {
@@ -273,7 +280,8 @@ import { untrack } from 'svelte';
 	}
 
 	.card-actions {
-		margin-top: 1rem;
+		margin-top: auto;
+		padding-top: 1rem;
 	}
 
 	.muted {
@@ -297,14 +305,51 @@ import { untrack } from 'svelte';
 		background: #fafafa;
 	}
 
+	@media (max-width: 1200px) {
+		.stats-grid,
+		.action-grid,
+		.grid {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+
+		.stats-grid .stat-card:last-child,
+		.action-grid .action-card:last-child {
+			grid-column: 1 / -1;
+		}
+	}
+
+	@media (max-width: 700px) {
+		.stats-grid,
+		.action-grid,
+		.grid {
+			grid-template-columns: minmax(0, 1fr);
+		}
+
+		.stats-grid .stat-card:last-child,
+		.action-grid .action-card:last-child {
+			grid-column: auto;
+		}
+	}
+
 	@media (max-width: 640px) {
 		.page {
 			padding: 1rem;
 		}
 
 		.section-head {
-			align-items: flex-start;
+			align-items: stretch;
 			flex-direction: column;
+		}
+
+		.section-actions,
+		.quick-links {
+			flex-direction: column;
+		}
+
+		.section-actions > *,
+		.quick-links > *,
+		.card-actions > * {
+			width: 100%;
 		}
 	}
 </style>
