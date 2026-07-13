@@ -1,0 +1,13 @@
+{
+  "name": "resora",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "infra/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspaces",
+    "build": "npm run build --workspaces"
+  }
+}
